@@ -168,7 +168,7 @@ def def_dashboard():
     today = date.today()
     
     t = get_translation()
-    tip_list = t.get('tips')
+    tip_list = list(t.get('tips').values())
     random_tip = random.choice(tip_list)
 
     if user.last_completed:
@@ -186,7 +186,7 @@ def def_dashboard():
         Task.query.filter_by(user_id=user.id).delete()
         task_keys = random.sample(list(t['tasks'].keys()), 5)
         for key in task_keys:
-            task = Task(task_id=str(key), user_id=user.id, date=today)
+            task = Task(task_id=int(key), user_id=user.id, date=today)
             db.session.add(task)
         db.session.commit()
 
