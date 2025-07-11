@@ -313,20 +313,37 @@ def update_profile():
         return redirect(url_for('def_login_page'))
 
     user = User.query.get(session['user_id'])
+    error = None
 
+    # Описание
     description = request.form.get('description')
     if description:
         user.description = description
 
+    # Аватарка
     avatar = request.files.get('avatar')
     if avatar and avatar.filename != '':
         filename = avatar.filename
-        path = os.path.join(app.root_path, 'static/uploads', filename)
-        avatar.save(path)
-        user.avatar = filename
-
-    db.session.commit()
-    return redirect(url_for('def_profile_page'))
+        ext = filename.rsplit('.', 1)[-1].lower()
+        if ext not in file_names:
+            error = "Недопустимый формат файла"
+        elif avatar.content_length and avatar.content_length > 5 * 1024 * 1024:
+            error = "Файл слишком большой (максимум 5 МБ)"
+        else:
+            from PIL import Image
+            import io
+            img = Image.open(avatar.stream)
+            if img.width > 200 or img.height > 200:
+                error = "Размер изображения не должен превышать 200x200 пикселей"
+            else:
+                avatar.stream.seek(0)
+                path = os.path.join(app.root_path, 'static/uploads', filename)
+                avatar.save(path)
+                user.avatar = filename
+    if not error:
+        db.session.commit()
+        return redirect(url_for('def_profile_page'))
+    return render_template('edit_profile.html', user=user, error=error)
 
 @app.route('/update_username', methods=['POST'])
 def def_update_username():
