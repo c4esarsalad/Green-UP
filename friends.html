@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ t['friends_title'] }}</title>
+</head>
+<body style="background: #cbdea4;">
+    <nav>
+        <a href="{{ url_for('def_dashboard') }}">{{ t['dashboard_title'] }}</a> |
+        <a href="{{ url_for('def_friends_page') }}">{{ t['friends_title'] }}</a> |
+        <a href="{{ url_for('def_profile_page') }}">{{ t['profile_title'] }}</a> |
+        <a href="{{ url_for('set_language', lang='ru') }}">Русский</a> |
+        <a href="{{ url_for('set_language', lang='en') }}">English</a> |
+        <a href="{{ url_for('set_language', lang='kk') }}">Қазақша</a>
+    </nav>
+    <h1>{{ t['friends_title'] }}</h1>
+    <form method="POST" action="{{ url_for('search_friend') }}">
+        <input type="text" name="username_temp" placeholder="{{ t['search_friend'] }}">
+        <button type="submit">{{ t['search_friend'] }}</button>
+    </form>
+    {% if search_result %}
+        <h3>{{ t['found'] }} {{ search_result.username }}</h3>
+        {% if search_result.avatar %}
+            <img src="{{ url_for('static', filename='uploads/' + search_result.avatar) }}" alt="Аватар" width="50">
+        {% else %}
+            <p>{{ t['no_avatar'] }}</p>
+        {% endif %}
+        {% if search_result.id != user.id %}
+            <form action="{{ url_for('send_friend_request', receiver_id=search_result.id) }}" method="post">
+                <button type="submit">{{ t['send_friend_request'] }}</button>
+            </form>
+        {% endif %}
+    {% endif %}
+    <h3>{{ t['friend_requests'] }}</h3>
+    {% if requests %}
+        <ul>
+        {% for req in requests %}
+            <li>
+                {{ req.sender.username }}
+                {% if req.sender.avatar %}
+                    <img src="{{ url_for('static', filename='uploads/' + req.sender.avatar) }}" alt="Аватар" width="50">
+                {% else %}
+                    <span>{{ t['no_avatar'] }}</span>
+                {% endif %}
+                <form method="POST" action="{{ url_for('respond_friend_request', request_id=req.id, action='accept') }}" style="display:inline;">
+                    <button type="submit">{{ t['accept'] }}</button>
+                </form>
+                <form method="POST" action="{{ url_for('respond_friend_request', request_id=req.id, action='decline') }}" style="display:inline;">
+                    <button type="submit">{{ t['decline'] }}</button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет входящих запросов</p>
+    {% endif %}
+    <h3>{{ t['your_friends'] }}</h3>
+    {% if friends %}
+        <ul>
+        {% for friend in friends %}
+            <li>
+                <a href="{{ url_for('def_view_other_profile', user_id=friend.id) }}">{{ friend.username }}</a>
+                {% if friend.avatar %}
+                    <img src="{{ url_for('static', filename='uploads/' + friend.avatar) }}" alt="Аватар" width="50">
+                {% else %}
+                    <span>Нет аватара</span>
+                {% endif %}
+                <form action="{{ url_for('def_remove_friend', friend_id=friend.id) }}" method="post" style="display:inline">
+                    <button type="submit">{{ t['remove'] }}</button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет друзей</p>
+    {% endif %}
+    <a href="{{ url_for('def_profile_page') }}">{{ t['back_to_profile'] }}</a>
+</body>
+</html>

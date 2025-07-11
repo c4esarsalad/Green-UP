@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ t['register_title'] }} - GreenUP</title>
+    </head>
+    <body style="background: #cbdea4;">
+        <nav>
+            <a href="{{ url_for('set_language', lang='ru') }}">Русский</a> |
+            <a href="{{ url_for('set_language', lang='en') }}">English</a> |
+            <a href="{{ url_for('set_language', lang='kk') }}">Қазақша</a>
+        </nav>
+        <h1>{{ t['register_title'] }}</h1>
+        {% if error %}
+            <p style="color:red">{{ error }}</p>
+        {% endif %}
+        <form method="post" action="/register">
+            <br>
+            <h3>{{ t['email'] }}</h3>
+            <input type="email" name="email" required>
+            <br>
+            <h3>{{ t['nickname'] }}</h3>
+            <input type="text" name="username" placeholder="{{ t['nickname'] }}" required>
+            <br>
+            <h3>{{ t['password'] }}</h3>
+            <input type="password" name="password" required>
+            <br>
+            <br>
+            <button type="submit">{{ t['register_button'] }}</button>
+            <br>
+        </form>
+        <a href="/login" class="btn default-btn">{{ t['login_title'] }}</a>
+        <br>
+        <a href="{{ url_for('def_home_page') }}" class="btn btn-primary">{{ t['to_homepage'] }}</a>
+    </body>
+</html>

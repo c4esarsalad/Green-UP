@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ t['dashboard_title'] }} - GreenUP</title>
+</head>
+<body style="background: #cbdea4;">
+    <nav>
+        <a href="{{ url_for('def_dashboard') }}">{{ t['dashboard_title'] }}</a> |
+        <a href="{{ url_for('def_friends_page') }}">{{ t['friends_title'] }}</a> |
+        <a href="{{ url_for('def_profile_page') }}">{{ t['profile_title'] }}</a> |
+        <a href="{{ url_for('set_language', lang='ru') }}">Русский</a> |
+        <a href="{{ url_for('set_language', lang='en') }}">English</a> |
+        <a href="{{ url_for('set_language', lang='kk') }}">Қазақша</a>
+    </nav>
+    <h1>{{ t['welcome'] }} {{ username }}!</h1>
+    <p>{{ t['level'] }} {{ level }}</p>
+    <p>{{ t['xp'] }} {{ xp }}/100</p>
+    {% if tasks %}
+        <h2>{{ t['tasks'] }}</h2>
+        <ul>
+        {% for task in tasks %}
+            <li>
+                {{ task.description }}
+                {% if not task.completed %}
+                    <form method="POST" action="{{ url_for('def_complete_task', task_id=task.id) }}" style="display:inline;">
+                        <button type="submit">{{ t['complete'] }}</button>
+                    </form>
+                {% else %}
+                    <strong>✔ {{ t['completed'] }}</strong>
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    {% elif remaining_hours is not none and remaining_minutes is not none %}
+        <p>{{ t['new_tasks_in'] }} {{ remaining_hours }} ч. {{ remaining_minutes }} мин.</p>
+    {% else %}
+        <p>{{ t['no_tasks'] }}</p>
+    {% endif %}
+    <hr>
+    <h3>{{ t['tip'] }}:</h3>
+    <p>{{ random_tip }}</p>
+    <form method="POST" action="{{ url_for('def_logout') }}">
+        <button type="submit">{{ t['logout'] }}</button>
+    </form>
+</body>
+</html>

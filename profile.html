@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ t['profile_title'] }} — GreenUP</title>
+</head>
+<body style="background: #cbdea4;">
+<nav>
+    <a href="{{ url_for('def_dashboard') }}">{{ t['dashboard_title'] }}</a> |
+    <a href="{{ url_for('def_friends_page') }}">{{ t['friends_title'] }}</a> |
+    <a href="{{ url_for('def_profile_page') }}">{{ t['profile_title'] }}</a> |
+    <a href="{{ url_for('set_language', lang='ru') }}">Русский</a> |
+    <a href="{{ url_for('set_language', lang='en') }}">English</a> |
+    <a href="{{ url_for('set_language', lang='kk') }}">Қазақша</a>
+</nav>
+<h1>{{ user.username }}</h1>
+<img src="{{ url_for('static', filename='uploads/' ~ user.avatar) }}" alt="Аватар" width="150">
+<form method="POST" enctype="multipart/form-data" action="{{ url_for('update_profile') }}">
+    <input type="file" name="avatar">
+    <button type="submit">{{ t['update_avatar'] }}</button>
+</form>
+<form method="POST" action="{{ url_for('def_update_username') }}">
+    <label>{{ t['nickname'] }}</label>
+    <input type="text" name="username" value="{{ user.username }}">
+    <button type="submit">{{ t['save'] }}</button>
+</form>
+<p>{{ t['registration_date'] }} {{ user.created_time.strftime('%d.%m.%Y') }}</p>
+<form method="POST" action="{{ url_for('def_update_description') }}">
+    <label>{{ t['description'] }}</label><br>
+    <textarea name="description" rows="4" cols="50">{{ user.description }}</textarea><br>
+    <button type="submit">{{ t['save'] }}</button>
+</form>
+<hr>
+<h2>{{ t['friends_title'] }} ({{ friends|length }})</h2>
+<ul>
+{% for friend in friends %}
+    <li>
+        <img src="{{ url_for('static', filename='uploads/' ~ friend.avatar) }}" width="30">
+        <a href="{{ url_for('def_view_other_profile', user_id=friend.id) }}">{{ friend.username }}</a>
+    </li>
+{% endfor %}
+</ul>
+<hr>
+<h2>{{ t['your_posts'] }}</h2>
+{% if posts %}
+{% for post in posts %}
+<div class="post">
+    <h3>{{ post.title }}</h3>
+    {% if post.image %}
+    <img src="{{ url_for('static', filename='uploads/' ~ post.image) }}" width="200">
+    {% endif %}
+    <p>{{ post.content }}</p>
+    {% if post.edited %}<small>(отредактировано)</small>{% endif %}
+    <a href="{{ url_for('def_edit_post', post_id=post.id) }}">{{ t['edit'] }}</a>
+    <form method="POST" action="{{ url_for('def_delete_post', post_id=post.id) }}">
+    <button type="submit">{{ t['delete'] }}</button>
+    </form>
+    {% if post.comments %}<p>{{ post.comments|length }}</p>{% endif %}
+</div>
+<hr>
+{% endfor %}
+{% else %}
+<p>{{ t['no_posts_yet'] }}</p>
+{% endif %}
+<h2>{{ t['create_new_post'] }}</h2>
+<form method="POST" enctype="multipart/form-data" action="{{ url_for('def_create_post') }}">
+    <input type="text" name="title" placeholder="{{ t['title'] }}" required><br>
+    <textarea name="content" rows="4" cols="50" placeholder="{{ t['description'] }}" required></textarea><br>
+    <input type="file" name="image"><br>
+    <button type="submit">{{ t['publish'] }}</button>
+</form>
+</body>
+</html>
