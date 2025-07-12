@@ -1,0 +1,438 @@
+/*
+  greenup-unified.css
+  Объединенные и улучшенные стили для проекта GreenUP (v2.2)
+  - Добавлены стили для JS-компонентов
+  - Улучшена доступность и отзывчивость интерфейса
+*/
+
+/* --- 🎨 Глобальные переменные --- */
+:root {
+    /* Цвета */
+    --primary-green: #2E7D32;  /* Более глубокий зеленый */
+    --light-green: #66BB6A;   /* Яркий светло-зеленый */
+    --background-start: #F5F7FA; /* Начало градиента фона */
+    --background-end: #E8F5E9;   /* Конец градиента фона */
+    --card-background: rgba(255, 255, 255, 0.85); /* Полупрозрачный фон карточек */
+    --text-color: #212121;       /* Цвет текста */
+    --border-color: #dce5dc;     /* Цвет рамок */
+    --error-color: #d32f2f;       /* Цвет для ошибок */
+    --success-color: #388E3C;      /* Цвет для успешных сообщений */
+    --focus-ring-color: rgba(46, 125, 50, 0.25); /* Цвет кольца фокуса */
+
+    /* Типографика */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    /* Размеры и отступы */
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 16px;
+
+    /* Анимации */
+    --transition-speed: 0.3s;
+}
+
+/* --- 🛠️ Сброс стилей и базовые настройки --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    background: linear-gradient(135deg, var(--background-start), var(--background-end));
+    color: var(--text-color);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- 📜 Кастомный скроллбар --- */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--background-start);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--light-green);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-green);
+}
+
+/* --- ✍️ Типографика --- */
+h1, h2, h3, h4 {
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+h1 { font-size: 2.8rem; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.6rem; }
+
+a {
+    color: var(--primary-green);
+    text-decoration: none;
+    transition: color var(--transition-speed) ease;
+}
+a:hover {
+    color: var(--light-green);
+    text-decoration: none;
+}
+/* Улучшение доступности: контур фокуса только при навигации с клавиатуры */
+a:focus-visible {
+    outline: 2px solid var(--primary-green);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+
+/* --- 🧭 Навигация (Glassmorphism) --- */
+nav {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 1rem 5%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary-green);
+    text-decoration: none;
+    border-bottom: none !important;
+    transition: transform var(--transition-speed) ease;
+}
+.logo:hover {
+    transform: scale(1.05);
+    color: var(--primary-green);
+}
+.logo strong {
+    color: var(--light-green);
+    font-weight: 800;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+.lang-switcher {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+}
+
+.nav-links a {
+    font-weight: 600;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid transparent;
+    transition: color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+}
+.nav-links a:hover, .nav-links a.active {
+    color: var(--primary-green);
+    border-bottom-color: var(--primary-green);
+}
+
+/* --- 📄 Основной контейнер и карточки --- */
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+}
+
+.post, .comment, .friend-card, .task-card, .form-card {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+.post:hover, .comment:hover, .friend-card:hover, .task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.1);
+}
+
+.post-header, .comment-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.post-header img.avatar, .comment-header img.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.post-actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+/* --- 📝 Формы --- */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+.form-group { /* Добавлен класс-обертка для полей формы */
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-size: 1rem;
+    background-color: #fff;
+    font-family: var(--font-family);
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 4px var(--focus-ring-color);
+}
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Стили для ошибок валидации (НОВОЕ) */
+.input-error {
+    border-color: var(--error-color) !important;
+}
+.input-error:focus {
+    box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.25) !important;
+}
+.form-error-message {
+    color: var(--error-color);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* --- 🟩 Кнопки --- */
+button, .btn {
+    background: linear-gradient(45deg, var(--light-green), var(--primary-green));
+    color: white;
+    border: none;
+    padding: 0.9rem 1.8rem;
+    border-radius: var(--border-radius-sm);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-position var(--transition-speed) ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-size: 200% auto;
+    display: inline-block;
+    -webkit-tap-highlight-color: transparent; /* Убирает синюю подсветку на мобильных */
+}
+button:hover, .btn:hover {
+    background-position: right center;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    color: white;
+    text-decoration: none;
+}
+button:active, .btn:active { /* Добавлено состояние при нажатии */
+    transform: translateY(-1px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+button:focus-visible, .btn:focus-visible { /* Улучшенный фокус */
+    outline: none;
+    box-shadow: 0 0 0 4px var(--background-start), 0 0 0 6px var(--primary-green);
+}
+
+button.delete-btn, .delete-btn { background: linear-gradient(45deg, #ef5350, #c62828); }
+button.secondary-btn, .secondary-btn { background: linear-gradient(45deg, #78909c, #455a64); }
+
+/* --- 📑 Списки --- */
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+ul li {
+    background-color: #fdfdfd;
+    padding: 1rem;
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* --- 📢 Уведомления и сообщения --- */
+.error { /* Для статических сообщений об ошибках */
+    background-color: #ffcdd2;
+    color: #c62828;
+    padding: 1rem;
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 1rem;
+    border-left: 5px solid var(--error-color);
+}
+.success { /* Для статических сообщений об успехе */
+    background-color: #c8e6c9;
+    color: #2e7d32;
+    padding: 1rem;
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 1rem;
+    border-left: 5px solid var(--success-color);
+}
+
+/* Динамические уведомления (НОВОЕ) */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.notification {
+    min-width: 250px;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+.notification.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+.notification.success {
+    background-color: var(--success-color);
+    color: white;
+}
+.notification.error {
+    background-color: var(--error-color);
+    color: white;
+}
+
+/* --- 👤 Аватары --- */
+img.avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--light-green);
+}
+
+/* --- 🖼️ Модальное окно --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-speed), visibility var(--transition-speed);
+}
+.modal-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+.modal-content {
+    background: white;
+    padding: 2.5rem;
+    border-radius: var(--border-radius-lg);
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform var(--transition-speed) ease;
+}
+.modal-overlay.visible .modal-content {
+    transform: scale(1);
+}
+.modal-buttons {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* --- ✨ Анимации и доп. элементы --- */
+.fade-in-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-in-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+#back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    display: none; /* JS управляет видимостью */
+    justify-content: center;
+    align-items: center;
+    z-index: 101;
+}
+
+/* --- 📱 Адаптивность --- */
+@media (max-width: 768px) {
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    
+    nav {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem;
+    }
+    .nav-links {
+        gap: 1rem;
+    }
+
+    .container {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        padding: 1.5rem;
+    }
+
+    .notification-container {
+        right: 10px;
+        top: 10px;
+        width: calc(100% - 20px);
+    }
+}

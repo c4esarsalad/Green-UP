@@ -1,0 +1,577 @@
+/* greenup.css
+  Стили для проекта GreenUP
+*/
+
+/* --- Переменные и основные стили --- */
+:root {
+    --primary-green: #4CAF50; /* Основной зеленый */
+    --light-green: #a5d6a7;   /* Светло-зеленый */
+    --background-color: #f7f9f7; /* Цвет фона */
+    --card-background: #ffffff;    /* Цвет карточек */
+    --text-color: #333333;       /* Цвет текста */
+    --border-color: #e0e0e0;     /* Цвет рамок */
+    --error-color: #f44336;       /* Цвет для ошибок */
+    --success-color: #4CAF50;      /* Цвет для успешных сообщений */
+    --font-family: 'Inter', sans-serif; /* Современный шрифт */
+}
+
+/* --- Сброс стилей и базовые настройки --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- Типографика --- */
+h1, h2, h3, h4 {
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+
+a {
+    color: var(--primary-green);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: var(--light-green);
+}
+
+/* --- Основной контейнер и макет --- */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Навигация --- */
+nav {
+    background-color: var(--card-background);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    border-radius: 0 0 10px 10px;
+    margin-bottom: 2rem;
+}
+
+nav a {
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+nav a:hover, nav a.active {
+    color: var(--primary-green);
+    border-bottom: 2px solid var(--primary-green);
+}
+
+/* --- Формы --- */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: var(--font-family);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* --- Кнопки --- */
+button, .btn {
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.2s;
+    display: inline-block;
+}
+
+button:hover, .btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: white;
+}
+
+/* Стили для разных кнопок */
+button.delete-btn, .delete-btn {
+    background-color: var(--error-color);
+}
+button.delete-btn:hover, .delete-btn:hover {
+    background-color: #d32f2f;
+}
+
+button.secondary-btn, .secondary-btn {
+    background-color: #757575;
+}
+button.secondary-btn:hover, .secondary-btn:hover {
+    background-color: #616161;
+}
+
+/* --- Карточки (посты, комментарии) --- */
+.post, .comment, .friend-card, .task-card {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.3s;
+}
+
+.post:hover, .comment:hover, .friend-card:hover, .task-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.post .post-header, .comment .comment-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.post-header img.avatar, .comment-header img.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+/* --- Списки (задачи, друзья) --- */
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+ul li {
+    background-color: #fdfdfd;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* --- Уведомления --- */
+.error {
+    background-color: #ffcdd2;
+    color: #c62828;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border-left: 5px solid var(--error-color);
+}
+
+.success {
+    background-color: #c8e6c9;
+    color: #2e7d32;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border-left: 5px solid var(--success-color);
+}
+
+/* --- Аватары --- */
+img.avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--light-green);
+}
+
+/* --- Модальное окно для подтверждения --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.modal-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    transform: translateY(-50px);
+    transition: transform 0.3s;
+}
+
+.modal-overlay.visible .modal-content {
+    transform: translateY(0);
+}
+
+.modal-buttons {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+
+/* --- Адаптивность --- */
+@media (max-width: 768px) {
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    
+    nav {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem;
+    }
+
+    .container {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        padding: 1.5rem;
+    }
+}
+
+/* greenup.css
+  Улучшенные стили для проекта GreenUP v2.1 (с логотипом)
+*/
+
+/* --- Переменные и основные стили --- */
+:root {
+    --primary-green: #2E7D32;  /* Более глубокий зеленый */
+    --light-green: #66BB6A;   /* Яркий светло-зеленый */
+    --background-start: #F5F7FA; /* Начало градиента фона */
+    --background-end: #E8F5E9;   /* Конец градиента фона */
+    --card-background: rgba(255, 255, 255, 0.85); /* Полупрозрачный фон карточек */
+    --text-color: #212121;       /* Цвет текста */
+    --border-color: #dce5dc;     /* Цвет рамок */
+    --error-color: #d32f2f;       /* Цвет для ошибок */
+    --success-color: #388E3C;      /* Цвет для успешных сообщений */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --- Сброс стилей и базовые настройки --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    background: linear-gradient(135deg, var(--background-start), var(--background-end));
+    color: var(--text-color);
+    line-height: 1.7;
+    min-height: 100vh;
+}
+
+/* --- Кастомный скроллбар --- */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--background-start);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--light-green);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-green);
+}
+
+/* --- Типографика --- */
+h1, h2, h3, h4 {
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+h1 { font-size: 2.8rem; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.6rem; }
+
+a {
+    color: var(--primary-green);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+a:hover {
+    color: var(--light-green);
+    text-decoration: none;
+}
+
+/* --- Навигация (Glassmorphism) --- */
+nav {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 1rem 5%; /* Отступы по бокам */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between; /* Главное изменение: распределяет элементы по краям и центру */
+    align-items: center;
+    width: 100%;
+}
+
+/* --- Стили для логотипа (НОВОЕ) --- */
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary-green);
+    text-decoration: none;
+    border-bottom: none !important; /* Убираем подчеркивание от других стилей ссылок */
+    transition: transform 0.3s ease;
+}
+.logo:hover {
+    transform: scale(1.05);
+    color: var(--primary-green);
+}
+.logo strong {
+    color: var(--light-green);
+    font-weight: 800;
+}
+
+/* --- Контейнеры для ссылок (НОВОЕ) --- */
+.nav-links {
+    display: flex;
+    gap: 2rem; /* Отступы между основными ссылками */
+}
+.lang-switcher {
+    display: flex;
+    gap: 1rem; /* Отступы между языками */
+    font-size: 0.9rem;
+}
+
+.nav-links a {
+    font-weight: 600;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+.nav-links a:hover, .nav-links a.active {
+    color: var(--primary-green);
+    border-bottom-color: var(--primary-green);
+}
+
+/* --- Основной контейнер и карточки --- */
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+}
+
+.post, .comment, .friend-card, .task-card, .form-card {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.post:hover, .comment:hover, .friend-card:hover, .task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.1);
+}
+
+/* --- Формы --- */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: #fff;
+    font-family: var(--font-family);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.15);
+}
+
+/* --- Кнопки --- */
+button, .btn {
+    background: linear-gradient(45deg, var(--light-green), var(--primary-green));
+    color: white;
+    border: none;
+    padding: 0.9rem 1.8rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-size: 200% auto;
+}
+button:hover, .btn:hover {
+    background-position: right center;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    color: white;
+}
+button.delete-btn {
+    background: linear-gradient(45deg, #ef5350, #c62828);
+}
+button.secondary-btn {
+    background: linear-gradient(45deg, #78909c, #455a64);
+}
+
+/* --- Анимации при скролле --- */
+.fade-in-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-in-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Кнопка "Наверх" --- */
+#back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    display: none; /* Скрыта по умолчанию */
+    justify-content: center;
+    align-items: center;
+    z-index: 101;
+}
+
+/* --- Модальное окно --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+.modal-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+.modal-content {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+.modal-overlay.visible .modal-content {
+    transform: scale(1);
+}
+.modal-buttons {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
